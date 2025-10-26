@@ -30,13 +30,85 @@ Instructions classified into three groups.
  * WB : Register Write Back
 
 ### IF Stage:
-* $IR \leftarrow Mem[PC]$
-* $E = mc^2$ 
+* $IR  \leftarrow Mem[PC]$
+* $NPC \leftarrow PC + 1$ 
 
 ### ID Stage:
-* $A \leftarrow Reg[rs]$
-* $B \leftarrow Reg[rt]$
-* $Imm \leftarrow \text{sign\_extend}($IR_{15-0}$)$
+* $A    \leftarrow Reg[rs]$
+* $B    \leftarrow Reg[rt]$
+* $Imm  \leftarrow \text{sign\_extend}($IR_{15-0}$)$
+* $Imm1 \leftarrow \text{sign\_extend}($IR_{25-0}$)$
+
+### EX Stage:
+* Memory Reference
+
+$ALUOut \leftarrow A + Imm;$
+
+* Register-Register ALU Instruction
+
+$ALUOut \leftarrow A \text{ func } B;$
+
+* Register-Immediate ALU Instruction
+
+$ALUOut \leftarrow A \text{ func } Imm;$
+
+Branch
+
+$ALUOut \leftarrow NPC + Imm;$
+$cond \leftarrow (A \text{ op } 0);$
+
+### MEM Stage:
+* Load instruction
+
+$PC \leftarrow NPC;$
+
+$LMD \leftarrow Mem[ALUOut];$
+
+* Store instruction
+
+$PC \leftarrow NPC;$
+
+$Mem[ALUOut] \leftarrow B;$
+
+* Branch instruction
+
+$\text{if } (cond) \text{ } PC \leftarrow ALUOut;$
+
+$\text{else } PC \leftarrow NPC;$
+
+* Other instructions
+
+$PC \leftarrow NPC;$
+
+### WB Stage:
+
+Register-Register ALU Instruction
+
+$Reg[rd] \leftarrow ALUOut;$
+
+Register-Immediate ALU Instruction
+
+$Reg[rt] \leftarrow ALUOut;$
+
+Load Instruction
+
+$Reg[rt] \leftarrow LMD;$
+
+
+## Non-PipeLined Architechture
+
+<img width="811" height="360" alt="Image" src="https://github.com/user-attachments/assets/c5223b97-0fb8-409e-82e1-c29cb66acd1c" />
+
+## PipeLined Architechture
+
+<img width="809" height="372" alt="Image" src="https://github.com/user-attachments/assets/40a61dfd-a2f9-4b35-8aef-1287714c4951" />
+
+
+## Issues To Be Addressed.
+
+* Structural Hazards : Conflict while Data Access and Instruction Fetch.
+* Data Hazards       : Only RAW Hazards are poosible in MIPS32.
+
 
 
 
