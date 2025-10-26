@@ -36,7 +36,7 @@ Instructions classified into three groups.
 ### ID Stage:
 * $A \leftarrow Reg[rs]$
 * $B \leftarrow Reg[rt]$
-* $Imm \leftarrow \text{sign\_extend}(IR_{15-0})$
+* $Imm \leftarrow \text{sign\_extend}($IR_{15-0}$)$
 
 
 
