@@ -41,8 +41,7 @@ Instructions classified into three groups.
 
 ### EX Stage:
 * Memory Reference
-
-$ALUOut \leftarrow A + Imm;$
+** $ALUOut \leftarrow A + Imm;$
 
 * Register-Register ALU Instruction
 
