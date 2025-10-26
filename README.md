@@ -37,8 +37,8 @@ Instructions classified into three groups.
 * $A    \leftarrow Reg[rs]$
 * $B    \leftarrow Reg[rt]$
 * $
-* $Imm  \leftarrow \text{sign\_extend}(IR[15:0])$
-* $Imm1 \leftarrow \text{sign\_extend}(IR_[25:0])$
+* $Imm  \leftarrow  {16{IR[15]} , IR[15:0]}$
+* $Imm1 \leftarrow  {6{IR[25]}  , IR[25:0]}$
 
 ### EX Stage:
 * Memory Reference        : $ALUOut \leftarrow A + Imm;$
