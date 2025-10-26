@@ -1,109 +1,91 @@
-PipeLined Implementation of MIPS32 Processor
 
-MIPS32 is a Reduced Instruction Set Architechture (RISC) which can operate on 32 bits of data at a time.
+# PipeLined Implementation of MIPS32 Processor
 
-Salient Features
+MIPS32 is a **Reduced Instruction Set Architechture (RISC)** which can operate on 32 bits of data at a time.
 
-MIPS32 Registers:
+## Salient Features
 
-32, 32 general purpose registers : R0 to R31.
+### MIPS32 Registers:
 
-A special purpose register : 32 bit Program Counter pointing to the next instruction to be fetched.
+* 32, 32 general purpose registers : *R0 to R1*.
+* A special purpose register : 32 bit Program Counter pointing to the next instruction to be fetched.
 
-MIPS Instruction Encoding:
 
+### MIPS Instruction Encoding:
 Instructions classified into three groups.
+* R-type(Register) : Two Source and One Destination Register.
 
-R-type(Register) : Two Source and One Destination Register.
+* I-type(Immediate) : One Source and One Destination Register. 
 
-I-type(Immediate) : One Source and One Destination Register.
+* J-type(jump) : Not implemented.
 
-J-type(jump) : Not implemented.
+ <img width="523" height="233" alt="Image" src="https://github.com/user-attachments/assets/4614a59c-f91e-4610-a7e0-cc65246075c1" />
 
-<img width="523" height="233" alt="Image" src="https://github.com/user-attachments/assets/4614a59c-f91e-4610-a7e0-cc65246075c1" />
+ ## Pipeline Stages:
 
-Pipeline Stages:
+ * IF : Instruction Fetch
+ * ID : Instruction Decode
+ * EX : Execute / Effective Address Calculation.
+ * MEM: Memory Access/Branch Completion.
+ * WB : Register Write Back
 
-IF : Instruction Fetch
+### IF Stage:
+* $IR  \leftarrow Mem[PC]$
+* $NPC \leftarrow PC + 1$ 
 
-ID : Instruction Decode
+### ID Stage:
+* $A    \leftarrow Reg[rs]$
+* $B    \leftarrow Reg[rt]$
+* $Imm  \leftarrow \text{sign\_extend}($IR_{15-0}$)$
+* $Imm1 \leftarrow \text{sign\_extend}($IR_{25-0}$)$
 
-EX : Execute / Effective Address Calculation.
+### EX Stage:
+* Memory Reference        : $ALUOut \leftarrow A + Imm;$
 
-MEM: Memory Access/Branch Completion.
+* Reg-Reg ALU Instruction : $ALUOut \leftarrow A \text{ func } B;$
 
-WB : Register Write Back
+* Reg-Imm ALU Instruction : $ALUOut \leftarrow A \text{ func } Imm;$
 
-IF Stage:
+* Branch                  : $ALUOut \leftarrow NPC + Imm;$
+                          : $cond \leftarrow (A \text{ op } 0);$
 
-$IR \leftarrow Mem[PC]$
+### MEM Stage:
+* Load instruction  : $PC \leftarrow NPC;$
+                    : $LMD \leftarrow Mem[ALUOut];$
 
-$NPC \leftarrow PC + 1$
+* Store instruction : $PC \leftarrow NPC;$
+                    : $Mem[ALUOut] \leftarrow B;$
 
-ID Stage:
+* Branch instruction: $\text{if } (cond) \text{ } PC \leftarrow ALUOut;$
+                    : $\text{else } PC \leftarrow NPC;$
 
-$A \leftarrow Reg[rs]$
+* Other instructions: $PC \leftarrow NPC;$
 
-$B \leftarrow Reg[rt]$
+### WB Stage:
 
-$Imm \leftarrow \text{sign\_extend}(IR_{15-0})$
+Reg-Reg ALU Instruction : $Reg[rd] \leftarrow ALUOut;$
 
-$Imm1 \leftarrow \text{sign\_extend}(IR_{25-0})$
+Reg-Imm ALU Instruction : $Reg[rt] \leftarrow ALUOut;$
 
-EX Stage:
+Load Instruction        : $Reg[rt] \leftarrow LMD;$
 
-Memory Reference: $ALUOut \leftarrow A + Imm;$
 
-Reg-Reg ALU Instruction: $ALUOut \leftarrow A \text{ func } B;$
-
-Reg-Imm ALU Instruction: $ALUOut \leftarrow A \text{ func } Imm;$
-
-Branch:
-
-$ALUOut \leftarrow NPC + Imm;$
-
-$cond \leftarrow (A \text{ op } 0);$
-
-MEM Stage:
-
-Load instruction:
-
-$PC \leftarrow NPC;$
-
-$LMD \leftarrow Mem[ALUOut];$
-
-Store instruction:
-
-$PC \leftarrow NPC;$
-
-$Mem[ALUOut] \leftarrow B;$
-
-Branch instruction:
-
-$\text{if } (cond) \text{ } PC \leftarrow ALUOut;$
-
-$\text{else } PC \leftarrow NPC;$
-
-Other instructions: $PC \leftarrow NPC;$
-
-WB Stage:
-
-Reg-Reg ALU Instruction: $Reg[rd] \leftarrow ALUOut;$
-
-Reg-Imm ALU Instruction: $Reg[rt] \leftarrow ALUOut;$
-
-Load Instruction: $Reg[rt] \leftarrow LMD;$
-
-Non-PipeLined Architechture
+## Non-PipeLined Architechture
 
 <img width="811" height="360" alt="Image" src="https://github.com/user-attachments/assets/c5223b97-0fb8-409e-82e1-c29cb66acd1c" />
 
-PipeLined Architechture
+## PipeLined Architechture
 
 <img width="809" height="372" alt="Image" src="https://github.com/user-attachments/assets/40a61dfd-a2f9-4b35-8aef-1287714c4951" />
 
-Issues To Be Addressed.
 
-Structural Hazards: Conflict while Data Access and Instruction Fetch.
+## Issues To Be Addressed.
 
-Data Hazards: Only RAW Hazards are poosible in MIPS32.
+* Structural Hazards : Conflict while Data Access and Instruction Fetch.
+* Data Hazards       : Only RAW Hazards are poosible in MIPS32.
+
+
+
+
+
+
