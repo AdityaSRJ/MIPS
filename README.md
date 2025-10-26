@@ -29,14 +29,14 @@ Instructions classified into three groups.
  * MEM: Memory Access/Branch Completion.
  * WB : Register Write Back
 
- ### IF Stage :
- $IR <- Mem[PC]$
- $E = MC^2$ 
+### IF Stage:
+* $IR \leftarrow Mem[PC]$
+* $E = mc^2$ 
 
- ### ID Stage:
- $A  <- Reg[rs]$
- $B  <- Reg[rt]$
- $Imm<- (IR_15)^15##IR_{15-0}$
+### ID Stage:
+* $A \leftarrow Reg[rs]$
+* $B \leftarrow Reg[rt]$
+* $Imm \leftarrow \text{sign\_extend}(IR_{15-0})$
 
 
 
