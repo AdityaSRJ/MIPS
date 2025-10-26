@@ -7,8 +7,8 @@ MIPS32 is a **Reduced Instruction Set Architechture (RISC)** which can operate o
 
 ### MIPS32 Registers:
 
-* 32, 32 general purpose registers: *R0 to R1*.
-* A special purpose register: 32 bit Program Counter pointing to the next instruction to be fetched.
+* 32, 32 general purpose registers : *R0 to R1*.
+* A special purpose register : 32 bit Program Counter pointing to the next instruction to be fetched.
 
 
 ### MIPS Instruction Encoding:
@@ -40,58 +40,34 @@ Instructions classified into three groups.
 * $Imm1 \leftarrow \text{sign\_extend}($IR_{25-0}$)$
 
 ### EX Stage:
-* Memory Reference
-** $ALUOut \leftarrow A + Imm;$
+* Memory Reference        : $ALUOut \leftarrow A + Imm;$
 
-* Register-Register ALU Instruction
+* Reg-Reg ALU Instruction : $ALUOut \leftarrow A \text{ func } B;$
 
-$ALUOut \leftarrow A \text{ func } B;$
+* Reg-Imm ALU Instruction : $ALUOut \leftarrow A \text{ func } Imm;$
 
-* Register-Immediate ALU Instruction
-
-$ALUOut \leftarrow A \text{ func } Imm;$
-
-Branch
-
-$ALUOut \leftarrow NPC + Imm;$
-$cond \leftarrow (A \text{ op } 0);$
+* Branch                  : $ALUOut \leftarrow NPC + Imm;$
+                          : $cond \leftarrow (A \text{ op } 0);$
 
 ### MEM Stage:
-* Load instruction
+* Load instruction  : $PC \leftarrow NPC;$
+                    : $LMD \leftarrow Mem[ALUOut];$
 
-$PC \leftarrow NPC;$
+* Store instruction : $PC \leftarrow NPC;$
+                    : $Mem[ALUOut] \leftarrow B;$
 
-$LMD \leftarrow Mem[ALUOut];$
+* Branch instruction: $\text{if } (cond) \text{ } PC \leftarrow ALUOut;$
+                    : $\text{else } PC \leftarrow NPC;$
 
-* Store instruction
-
-$PC \leftarrow NPC;$
-
-$Mem[ALUOut] \leftarrow B;$
-
-* Branch instruction
-
-$\text{if } (cond) \text{ } PC \leftarrow ALUOut;$
-
-$\text{else } PC \leftarrow NPC;$
-
-* Other instructions
-
-$PC \leftarrow NPC;$
+* Other instructions: $PC \leftarrow NPC;$
 
 ### WB Stage:
 
-Register-Register ALU Instruction
+Reg-Reg ALU Instruction : $Reg[rd] \leftarrow ALUOut;$
 
-$Reg[rd] \leftarrow ALUOut;$
+Reg-Imm ALU Instruction : $Reg[rt] \leftarrow ALUOut;$
 
-Register-Immediate ALU Instruction
-
-$Reg[rt] \leftarrow ALUOut;$
-
-Load Instruction
-
-$Reg[rt] \leftarrow LMD;$
+Load Instruction        : $Reg[rt] \leftarrow LMD;$
 
 
 ## Non-PipeLined Architechture
