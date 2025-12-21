@@ -34,11 +34,7 @@ Instructions classified into three groups.
 * $NPC \leftarrow PC + 1$ 
 
 ### ID Stage:
-* $A    \leftarrow Reg[rs]$
-* $B    \leftarrow Reg[rt]$
-* $Imm \\leftarrow \\{16\\{IR[15]\\} , IR[15:0]\\}$
-* $Imm1 \\leftarrow \\{6\\{IR[25]\\} , IR[25:0]\\}$
-
+$$ID/EX.A \leftarrow Reg[IF/ID.IR[rs]]$$$$ID/EX.B \leftarrow Reg[IF/ID.IR[rt]]$$$$ID/EX.NPC \leftarrow IF/ID.NPC$$$$ID/EX.IR \leftarrow IF/ID.IR$$$$ID/EX.Imm \leftarrow \text{sign-extend}(IF/ID.IR_{15..0})$$
 ### EX Stage:
 * Memory Reference        : $ALUOut \leftarrow A + Imm;$
 
